@@ -8,7 +8,7 @@ import {
 import MFAsset from '../models/mfAsset.ts';
 
 import {
-    getTotalInvested, getcurrentProfit, getTotalValue, roundToTwo,
+    getResponse,
     // @ts-ignore
 } from '@/@db/data/util.ts';
 
@@ -41,10 +41,10 @@ class MFHolding implements asset {
       this.currency = mfAsset.currency;
       this.quantity = quantity;
       this.averagePrice = averagePrice;
-      this.invested = roundToTwo(quantity * averagePrice);
-      this.currentValue = roundToTwo(quantity * mfAsset.lastClosingPrice);
-      this.profit = roundToTwo(this.currentValue - this.invested);
-      this.profitPercentage = roundToTwo(this.profit / this.invested);
+      this.invested = (quantity * averagePrice);
+      this.currentValue = (quantity * mfAsset.marketPrice);
+      this.profit = (this.currentValue - this.invested);
+      this.profitPercentage = (this.profit / this.invested);
   }
 }
 
@@ -67,13 +67,4 @@ const mfHoldings: MFHolding[] = [
 
 ];
 
-const res = {
-    holdings: mfHoldings,
-    analytics: {
-        totalInvested: getTotalInvested(mfHoldings),
-        totalValue: getTotalValue(mfHoldings),
-        currentProfit: getcurrentProfit(mfHoldings),
-    },
-};
-
-mock.default.onGet('/api/1/assets/mutualFunds').reply(() => [200, res]);
+mock.default.onGet('/api/1/assets/mutualFunds').reply(() => [200, getResponse(mfHoldings)]);

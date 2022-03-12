@@ -112,7 +112,7 @@ export default {
         };
 
         const fundCount = {
-            statTitle: 'No. of Funds',
+            statTitle: 'No. of Investments',
             icon: mdiCheck,
             color: 'warning',
             statistics: 'ok',

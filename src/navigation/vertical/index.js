@@ -1,10 +1,13 @@
-import { mdiFileOutline, mdiHomeOutline, mdiLabel } from '@mdi/js';
+import { mdiHomeOutline, mdiLabel } from '@mdi/js';
 
 export default [
     {
         title: 'Home',
         icon: mdiHomeOutline,
         to: 'home',
+    },
+    {
+        subheader: 'Assets',
     },
     {
         title: 'Current Assets',
@@ -25,5 +28,10 @@ export default [
         title: 'Mutual Funds',
         icon: mdiLabel,
         to: 'mutualFunds',
+    },
+    {
+        title: 'PMS',
+        icon: mdiLabel,
+        to: 'pms',
     },
 ];

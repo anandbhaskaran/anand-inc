@@ -8,6 +8,11 @@ import {
     // @ts-ignore
 } from '../models/models.ts';
 
+import {
+    getResponse,
+    // @ts-ignore
+} from '@/@db/data/util.ts';
+
 class FixedDeposit implements asset {
   name: string
 
@@ -75,7 +80,7 @@ class FixedDeposit implements asset {
   }
 }
 
-const fixedDeposits: FixedDeposit[] = [
+const fixedDepositHoldings: FixedDeposit[] = [
     new FixedDeposit(
         '6570839973',
         Bank.IndianBank,
@@ -195,4 +200,4 @@ const fixedDeposits: FixedDeposit[] = [
     ),
 ];
 
-mock.default.onGet('api/1/assets/fixedDeposits').reply(() => [200, fixedDeposits]);
+mock.default.onGet('api/1/assets/fixedDeposits').reply(() => [200, getResponse(fixedDepositHoldings)]);

@@ -49,6 +49,14 @@ const routes = [
         },
     },
     {
+        path: '/assets/pms',
+        name: 'pms',
+        component: () => import('@/views/assets/PMS.vue'),
+        meta: {
+            layout: 'content',
+        },
+    },
+    {
         path: '/login',
         name: 'auth-login',
         component: () => import('@/views/Login.vue'),

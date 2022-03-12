@@ -4,6 +4,11 @@ import {
 // @ts-ignore
 } from '../models/models.ts';
 
+import {
+    getResponse,
+    // @ts-ignore
+} from '@/@db/data/util.ts';
+
 class CurrentAsset implements asset {
   name: string
 
@@ -37,9 +42,8 @@ class CurrentAsset implements asset {
   }
 }
 
-const currentAssets: CurrentAsset[] = [
+const currentAssetHoldings: CurrentAsset[] = [
     new CurrentAsset('Open Balance', Bank.HDFCBankAishu, Currency.INR, 868370),
     new CurrentAsset('Open Balance', Bank.IndianBank, Currency.INR, 303369),
 ];
-
-mock.default.onGet('/api/1/assets/currentAssets').reply(() => [200, currentAssets]);
+mock.default.onGet('/api/1/assets/currentAssets').reply(() => [200, getResponse(currentAssetHoldings)]);

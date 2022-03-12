@@ -12,7 +12,7 @@ export default class MFAsset {
 
   currency: Currency
 
-  lastClosingPrice: number
+  marketPrice: number
 
   logo:string | undefined
 
@@ -52,7 +52,7 @@ export default class MFAsset {
       folioNumber: string,
       category: string,
       currency: Currency,
-      lastClosingPrice: number,
+      marketPrice: number,
       logo?: string,
   ) {
       this.name = name;
@@ -60,7 +60,7 @@ export default class MFAsset {
       this.folioNumber = folioNumber;
       this.category = category;
       this.currency = currency;
-      this.lastClosingPrice = lastClosingPrice;
+      this.marketPrice = marketPrice;
       this.logo = logo;
   }
 }

@@ -138,7 +138,6 @@ export default {
         return {
             headers: [
                 { text: 'Name', value: 'name' },
-                { text: 'Bank', value: 'bank.name' },
                 { text: 'Invested', value: 'invested' },
                 { text: 'Current Value', value: 'currentValue' },
                 { text: 'Profit', value: 'profit' },
@@ -155,7 +154,7 @@ export default {
         };
     },
     created() {
-        axios.get('/api/1/assets/currentAssets').then((res) => {
+        axios.get('/api/1/assets/pms').then((res) => {
             console.log(res.data);
             this.mutualFunds = res.data.holdings;
             this.analytics = res.data.analytics;

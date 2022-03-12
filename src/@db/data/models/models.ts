@@ -6,6 +6,7 @@ export enum AssetType {
   FixedDeposit = 'Fixed Deposits',
   Stock = 'Stock',
   MUTUAL_FUND = 'Mutual Fund',
+  PMS = 'PMS'
 }
 
 export enum Currency {
