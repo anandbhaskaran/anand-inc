@@ -1,4 +1,4 @@
-# Materio - Vuetify Vuejs Admin Template
+# Anand Inc.
 
 > Thank you for purchasing our template 🥂
 

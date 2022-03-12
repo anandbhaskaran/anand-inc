@@ -1,10 +1,13 @@
-import * as mock from '../../mock'
-import { asset, AssetType, Bank, Currency } from '../models.ts'
+import * as mock from '../../mock';
+import {
+    asset, AssetType, Bank, Currency,
+// @ts-ignore
+} from '../models/models.ts';
 
 class CurrentAsset implements asset {
   name: string
 
-  type: AssetType = AssetType.CurrentAssets
+  type: AssetType = AssetType.CurrentAsset
 
   currency: Currency
 
@@ -14,18 +17,29 @@ class CurrentAsset implements asset {
 
   bank: Bank
 
-  constructor(name: string, bank: Bank, currency: Currency, invested: number, currentValue?: number) {
-    this.name = name
-    this.bank = bank
-    this.currency = currency
-    this.invested = invested
-    this.currentValue = currentValue || invested
+  profit: number
+
+  profitPercentage: number
+
+  constructor(name: string,
+      bank: Bank,
+      currency: Currency,
+      invested: number,
+      currentValue?: number) {
+      this.name = name;
+      this.bank = bank;
+      this.currency = currency;
+      this.invested = invested;
+      this.currentValue = currentValue || invested;
+
+      this.profit = this.currentValue - this.invested;
+      this.profitPercentage = this.profit / this.invested;
   }
 }
 
 const currentAssets: CurrentAsset[] = [
-  new CurrentAsset('Open Balance', Bank.HDFCBankAishu, Currency.INR, 868370),
-  new CurrentAsset('Open Balance', Bank.IndianBank, Currency.INR, 303369),
-]
+    new CurrentAsset('Open Balance', Bank.HDFCBankAishu, Currency.INR, 868370),
+    new CurrentAsset('Open Balance', Bank.IndianBank, Currency.INR, 303369),
+];
 
-mock.default.onGet('/api/1/assets/currentAssets').reply(() => [200, currentAssets])
+mock.default.onGet('/api/1/assets/currentAssets').reply(() => [200, currentAssets]);

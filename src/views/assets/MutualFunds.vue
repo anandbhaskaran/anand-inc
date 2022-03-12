@@ -1,7 +1,7 @@
 <template>
     <v-data-table
         :headers="headers"
-        :items="currentAssets"
+        :items="mutualFunds"
         :items-per-page="50"
     />
 </template>
@@ -13,24 +13,25 @@ import axios from '@/plugins/axios';
 
 export default {
     setup() {
-        const currentAssets = ref([]);
+        const mutualFunds = ref([]);
 
         return {
             headers: [
                 { text: 'Name', value: 'name' },
-                { text: 'Bank', value: 'bank.name' },
+                { text: 'Currency', value: 'currency' },
+                { text: 'Quantity', value: 'quantity' },
                 { text: 'Invested', value: 'invested' },
                 { text: 'Current Value', value: 'currentValue' },
                 { text: 'Profit', value: 'profit' },
                 { text: 'Profit Percentage', value: 'profitPercentage' },
             ],
-            currentAssets,
+            mutualFunds,
         };
     },
     created() {
-        axios.get('/api/1/assets/currentAssets').then((res) => {
+        axios.get('/api/1/assets/mutualFunds').then((res) => {
             console.log(res.data);
-            this.currentAssets = res.data;
+            this.mutualFunds = res.data;
         });
     },
 };

@@ -16,10 +16,26 @@
         "outDir": "./dist",
         "baseUrl": ".",
         "paths": {
-            "~/*": [
-                "./src/*"
+            "@/*": [
+                "src/*"
+            ],
+            "@core/*": [
+                "src/@core/*"
+            ],
+            "@themeConfig": [
+                "themeConfig.js"
+            ],
+            "@axios": [
+                "src/plugins/axios.ts"
+            ],
+            "@user-variables": [
+                "src/styles/variables.scss"
             ]
-        }
+        },
+        "typeRoots": [
+            "./node_modules/@types",
+            "./custom_typings"
+        ]
     },
     "compileOnSave": true,
     "include": [
