@@ -33,12 +33,7 @@ module.exports = {
                 .use('sass-loader')
                 .tap((opt) => mergeSassVariables(opt, "'@/styles/variables.scss';"));
         });
-        config.module
-            .rule(/\.(png|jpe?g|gif|jp2|webp)$/)
-            .test(/\.(png|jpe?g|gif|jp2|webp)$/)
-            .use('file-loader')
-            .loader('file-loader')
-            .tap((options) => options);
+
         config.module
             .rule('ts')
             .test(/\.ts$/)

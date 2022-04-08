@@ -4,6 +4,9 @@ import { Currency } from '@/@db/data/models/models.ts';
 const yahooFinance = require('yahoo-finance');
 
 export default class StockAsset {
+
+  private static lastUpdated: Date | undefined = undefined
+
   name:string
 
   logo: string
@@ -60,7 +63,7 @@ export default class StockAsset {
 
   static BERKSHIRE = new StockAsset('BERKSHIRE', '', 'BRK-B', 'US-Berkshire', 'Diversified Financials', Currency.USD, 25069.55472);
 
-  static FAIRFAX_INDIA_HILDINGS_CORP = new StockAsset('FAIRFAX_INDIA_HILDINGS_CORP', '', 'FFXDF', 'US-Fairfax India Holdings Corp', 'Diversified Financials', Currency.USD, 912.666888);
+  static FAIRFAX_INDIA_HOLDINGS_CORP = new StockAsset('FAIRFAX_INDIA_HOLDINGS_CORP', '', 'FFXDF', 'US-Fairfax India Holdings Corp', 'Diversified Financials', Currency.USD, 912.666888);
 
   static INTEL = new StockAsset('INTEL', '', 'INTC', 'US-Intel', 'Electronics', Currency.USD, 3517.874136);
 
@@ -72,13 +75,15 @@ export default class StockAsset {
 
   static SPOTIFY = new StockAsset('SPOTIFY', '', 'SPOT', 'US-Spotify', 'Information Technology', Currency.USD, 9540.400968);
 
-  static XIAOMI = new StockAsset('XIAOMI', '', '3CPA.F', 'US-Xiaomi', 'Consumer', Currency.EUR, 129.0134859552);
+  static XIAOMI = new StockAsset('XIAOMI', '', '3CP.F', 'US-Xiaomi', 'Consumer', Currency.EUR, 129.0134859552);
 
   static META = new StockAsset('META', '', 'FB', 'US-Meta', 'Information Technology', Currency.USD, 14400.793512);
 
   static TESLA = new StockAsset('TESLA', '', 'TSLA', 'US-Tesla', 'Auto Manufacturers', Currency.USD, 61050.42972);
 
   static UBER = new StockAsset('UBER', '', 'UBER', 'US-Uber', 'Information Technology', Currency.USD, 2361.112992);
+
+
 
   constructor(
       name: string,
@@ -99,6 +104,10 @@ export default class StockAsset {
   }
 
   static async updateLatestValue() {
+      if (this.lastUpdated != undefined) {
+        console.log("Already updated stocks values at " + this.lastUpdated.toString())
+          return;
+      }
       await Promise.all([this.SJVN.getLatestValueOfStock(),
           this.HDFCBANK.getLatestValueOfStock(),
           this.SUNPHARMA.getLatestValueOfStock(),
@@ -120,7 +129,7 @@ export default class StockAsset {
           this.ALPHABET.getLatestValueOfStock(),
           this.AMAZON.getLatestValueOfStock(),
           this.BERKSHIRE.getLatestValueOfStock(),
-          this.FAIRFAX_INDIA_HILDINGS_CORP.getLatestValueOfStock(),
+          this.FAIRFAX_INDIA_HOLDINGS_CORP.getLatestValueOfStock(),
           this.INTEL.getLatestValueOfStock(),
           this.NETFLIX.getLatestValueOfStock(),
           this.NVDIA.getLatestValueOfStock(),
@@ -131,8 +140,13 @@ export default class StockAsset {
           this.TESLA.getLatestValueOfStock(),
           this.UBER.getLatestValueOfStock()])
           .catch(() => console.error('Fetching Failed'))
-          .finally(() => console.log('Completed Execution'));
+          .finally(() => {
+            this.lastUpdated = new Date;
+            console.log('Completed Execution')
+          });
   }
+
+
 
   async getLatestValueOfStock() {
       const yahooResponse = await yahooFinance.quote({

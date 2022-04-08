@@ -4,7 +4,7 @@ import {
     asset,
     AssetType,
     Currency,
-    Bank,
+    AssetManager,
     // @ts-ignore
 } from '../models/models.ts';
 
@@ -16,7 +16,7 @@ import {
 class FixedDeposit implements asset {
   name: string
 
-  bank: Bank
+  assetManager: AssetManager
 
   type: AssetType = AssetType.FixedDeposit
 
@@ -44,7 +44,7 @@ class FixedDeposit implements asset {
 
   constructor(
       name: string,
-      bank: Bank,
+      bank: AssetManager,
       currency: Currency,
       depositDate: Date,
       maturityDate: Date,
@@ -62,7 +62,7 @@ class FixedDeposit implements asset {
       }
 
       this.name = name;
-      this.bank = bank;
+      this.assetManager = bank;
       this.currency = currency;
       this.depositDate = depositDate;
       this.maturityDate = maturityDate;
@@ -80,10 +80,10 @@ class FixedDeposit implements asset {
   }
 }
 
-const fixedDepositHoldings: FixedDeposit[] = [
+export const fixedDepositHoldings: FixedDeposit[] = [
     new FixedDeposit(
         '6570839973',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2017-10-07'),
         new Date('2022-10-06'),
@@ -92,7 +92,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6572489937',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2017-10-13'),
         new Date('2022-10-12'),
@@ -101,7 +101,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6585119267',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2017-11-28'),
         new Date('2022-11-27'),
@@ -110,7 +110,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6590092799',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2017-12-15'),
         new Date('2022-12-14'),
@@ -119,7 +119,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6591937273',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2017-12-22'),
         new Date('2022-12-21'),
@@ -128,7 +128,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6595310498',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2018-01-04'),
         new Date('2023-01-03'),
@@ -137,7 +137,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6599918649',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2018-01-22'),
         new Date('2023-01-21'),
@@ -146,7 +146,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6600802034',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2018-01-24'),
         new Date('2023-01-23'),
@@ -155,7 +155,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6606750872',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2018-02-14'),
         new Date('2022-02-13'),
@@ -164,7 +164,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6620803512',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2018-04-04'),
         new Date('2022-04-03'),
@@ -173,7 +173,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6624463219',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2018-04-17'),
         new Date('2022-04-16'),
@@ -182,7 +182,7 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6636653750',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2018-05-29'),
         new Date('2022-05-28'),
@@ -191,13 +191,16 @@ const fixedDepositHoldings: FixedDeposit[] = [
     ),
     new FixedDeposit(
         '6947435228',
-        Bank.IndianBank,
+        AssetManager.IndianBank,
         Currency.INR,
         new Date('2020-11-12'),
         new Date('2022-05-15'),
         50000,
         53949,
     ),
+    new FixedDeposit('50300580007270', AssetManager.HDFCBankAishu, Currency.INR, new Date('2021-12-23'), new Date('2022-12-24'), 50000, 52554),
+    new FixedDeposit('50300580009708', AssetManager.HDFCBankAishu, Currency.INR, new Date('2021-12-23'), new Date('2022-06-24'), 50000, 51109),
+
 ];
 
 mock.default.onGet('api/1/assets/fixedDeposits').reply(() => [200, getResponse(fixedDepositHoldings)]);

@@ -89,7 +89,7 @@
                 indeterminate
             />
             <p class="font-weight-semibold text-xl mt-8 mb-5">
-                Fetching the latest value of your assets
+                Fetching the live value of your assets
             </p>
         </div>
     </div>
@@ -156,7 +156,7 @@ export default {
         return {
             headers: [
                 { text: 'Name', value: 'name' },
-                { text: 'Category', value: 'fund.category' },
+                { text: 'Sector', value: 'stock.sector' },
                 { text: 'Quantity', value: 'quantity' },
                 { text: 'Invested', value: 'invested' },
                 { text: 'Current Value', value: 'currentValue' },
