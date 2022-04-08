@@ -60,6 +60,18 @@
                 Fetching the live value of your assets
             </p>
         </div>
+        <div>
+            <p class="todo_title">
+                Assets that are not updated:
+            </p>
+            <ul>
+                <li>Pension Funds (approx valuation: 50L)</li>
+                <li>Commodities (approx valuation: 15L)</li>
+                <li>Prepaid Expenses (approx valuation: 3.5L )</li>
+                <li>Locked capital (approx valuation: 1.5L )</li>
+                <li>Crypto currencies (approx valuation: 1L)</li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -150,3 +162,11 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.todo_title{
+  margin-top: 45px;
+  font-weight: bold;
+  font-size: 16px;
+}
+</style>
