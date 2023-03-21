@@ -20,7 +20,7 @@ class Stock implements asset {
 
   assetManager: AssetManager
 
-  currency: Currency
+  localCurrency: Currency
 
   averagePrice: number
 
@@ -29,6 +29,8 @@ class Stock implements asset {
   invested: number
 
   currentValue: number
+
+  localValue: number
 
   profit: number
 
@@ -42,7 +44,7 @@ class Stock implements asset {
       this.name = stock.name;
       this.assetManager = assetManager;
 
-      this.currency = CurrencyConvertor.getInstance().getBaseCurrency();
+      this.localCurrency = CurrencyConvertor.getInstance().getBaseCurrency();
       this.averagePrice = CurrencyConvertor.getInstance()
           .getInBaseCurrency(averagePrice, stock.currency);
       this.quantity = quantity;
@@ -50,6 +52,7 @@ class Stock implements asset {
       this.invested = (quantity * this.averagePrice);
       this.currentValue = (quantity * CurrencyConvertor.getInstance()
           .getInBaseCurrency(stock.marketPrice, stock.currency));
+      this.localValue = quantity * stock.marketPrice;
       this.profit = (this.currentValue - this.invested);
       this.profitPercentage = (this.profit / this.invested);
   }
@@ -59,37 +62,42 @@ export async function getStockHoldings() {
     await CurrencyConvertor.getInstance().populateCurrencies();
     await StockAsset.updateLatestValue();
     return [
-        new Stock(StockAsset.SJVN, AssetManager.Zerodha, 500, 22.65),
-        new Stock(StockAsset.HDFCBANK, AssetManager.Zerodha, 61, 784.0164),
-        new Stock(StockAsset.SUNPHARMA, AssetManager.Zerodha, 30, 330),
-        new Stock(StockAsset.UTIAMC, AssetManager.Zerodha, 60, 578.3333),
-        new Stock(StockAsset.GRANULES, AssetManager.Zerodha, 460, 127.9168),
-        new Stock(StockAsset.BAJAJHLDNG, AssetManager.Zerodha, 15, 2153.6),
-        new Stock(StockAsset.HDFCAMC, AssetManager.Zerodha, 70, 2228.435),
-        new Stock(StockAsset.ITC, AssetManager.Zerodha, 995, 170.66),
-        new Stock(StockAsset.PERSISTENT, AssetManager.Zerodha, 30, 507.0083),
-        new Stock(StockAsset.NYKAA, AssetManager.Zerodha, 45, 1470.4356),
-        new Stock(StockAsset.AUROPHARMA, AssetManager.Zerodha, 80, 467.4575),
-        new Stock(StockAsset.KNRCON, AssetManager.Zerodha, 310, 108.9355),
-        new Stock(StockAsset.INDIGO, AssetManager.Zerodha, 35, 1167.47),
-        new Stock(StockAsset.TATAELXSI, AssetManager.Zerodha, 62, 4215.3435),
-        new Stock(StockAsset.HDFCLIFE, AssetManager.Zerodha, 95, 530.6711),
-        new Stock(StockAsset.HCLTECH, AssetManager.Zerodha, 50, 1156.47),
-        new Stock(StockAsset.AMARAJABAT, AssetManager.Zerodha, 133, 596.6767),
-        new Stock(StockAsset.NIFTYBEES, AssetManager.Zerodha, 550, 147.4337),
-        new Stock(StockAsset.ALPHABET, AssetManager.Degiro, 2, 1024.03),
-        new Stock(StockAsset.AMAZON, AssetManager.Degiro, 1, 1620),
-        new Stock(StockAsset.BERKSHIRE, AssetManager.Degiro, 16, 192.6212),
-        new Stock(StockAsset.FAIRFAX_INDIA_HOLDINGS_CORP, AssetManager.Degiro, 200, 7.48),
-        new Stock(StockAsset.INTEL, AssetManager.Degiro, 3, 49.34),
-        new Stock(StockAsset.META, AssetManager.Degiro, 7, 223.61),
-        new Stock(StockAsset.NETFLIX, AssetManager.Degiro, 6, 499.49),
-        new Stock(StockAsset.NVDIA, AssetManager.Degiro, 4, 187.79),
-        new Stock(StockAsset.OKTA, AssetManager.Degiro, 5, 224),
-        new Stock(StockAsset.SPOTIFY, AssetManager.Degiro, 2, 134.2275),
-        new Stock(StockAsset.TESLA, AssetManager.Degiro, 3, 861.39),
-        new Stock(StockAsset.UBER, AssetManager.Degiro, 33, 37.17),
+        new Stock(StockAsset.BERKSHIRE, AssetManager.Degiro, 26, 237.4207),
+        new Stock(StockAsset.META, AssetManager.Degiro, 27, 179.6229),
+        new Stock(StockAsset.AMAZON, AssetManager.Degiro, 53, 93.0027),
+        new Stock(StockAsset.ALPHABET, AssetManager.Degiro, 51, 58.4705),
+        new Stock(StockAsset.ITC, AssetManager.ZerodhaAishu, 1095, 181.4399),
+        new Stock(StockAsset.MICROSOFT, AssetManager.Degiro, 15, 271.65),
+        new Stock(StockAsset.TATAELXSI, AssetManager.ZerodhaAishu, 50, 5991.632),
+        new Stock(StockAsset.HDFC, AssetManager.ZerodhaAishu, 114, 2251.8377),
+        new Stock(StockAsset.APPLE, AssetManager.Degiro, 20, 142.4355),
+        new Stock(StockAsset.NETFLIX, AssetManager.Degiro, 11, 499.49),
+        new Stock(StockAsset.FAIRFAX_INDIA_HILDINGS_CORP, AssetManager.Degiro, 200, 7.48),
+        new Stock(StockAsset.HDFCBANK, AssetManager.ZerodhaAishu, 123, 1074.8715),
+        new Stock(StockAsset.UBER, AssetManager.Degiro, 66, 33.58),
+        new Stock(StockAsset.PERSISTENT, AssetManager.ZerodhaAishu, 32, 739.7297),
+        new Stock(StockAsset.LICI, AssetManager.ZerodhaAishu, 250, 864.0902),
+        new Stock(StockAsset.TESLA, AssetManager.Degiro, 9, 287.1332),
+        new Stock(StockAsset.HDFCAMC, AssetManager.ZerodhaAishu, 78, 2210.5186),
+        new Stock(StockAsset.GRANULES, AssetManager.ZerodhaAishu, 460, 127.9168),
+        new Stock(StockAsset.INMODE, AssetManager.Degiro, 45, 33.0944),
+        new Stock(StockAsset.NVDIA, AssetManager.Degiro, 4, 41.25),
+        new Stock(StockAsset.NIFTYBEES, AssetManager.ZerodhaAishu, 450, 179.1901),
         new Stock(StockAsset.XIAOMI, AssetManager.Degiro, 700, 2.5849),
+        new Stock(StockAsset.KNRCON, AssetManager.ZerodhaAishu, 310, 108.9355),
+        new Stock(StockAsset.INDIGO, AssetManager.ZerodhaAishu, 35, 1167.47),
+        new Stock(StockAsset.HDFC, AssetManager.ZerodhaAnand, 23, 2312.9717),
+        new Stock(StockAsset.AMARAJABAT, AssetManager.ZerodhaAishu, 100, 598.1705),
+        new Stock(StockAsset.HDFCBANK, AssetManager.ZerodhaAnand, 35, 1626.97),
+        new Stock(StockAsset.HDFCLIFE, AssetManager.ZerodhaAishu, 95, 530.6711),
+        new Stock(StockAsset.TATAELXSI, AssetManager.ZerodhaAnand, 7, 7484.3143),
+        new Stock(StockAsset.UTIAMC, AssetManager.ZerodhaAishu, 60, 578.3333),
+        new Stock(StockAsset.OKTA, AssetManager.Degiro, 5, 224),
+        new Stock(StockAsset.SIS, AssetManager.ZerodhaAnand, 95, 391.5326),
+        new Stock(StockAsset.SUNPHARMA, AssetManager.ZerodhaAishu, 30, 330),
+        new Stock(StockAsset.HCLTECH, AssetManager.ZerodhaAishu, 25, 1097.44),
+        new Stock(StockAsset.SPOTIFY, AssetManager.Degiro, 2, 134.2275),
+        new Stock(StockAsset.AUROPHARMA, AssetManager.ZerodhaAishu, 40, 461.99),
     ];
 }
 

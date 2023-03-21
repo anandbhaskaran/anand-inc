@@ -13,11 +13,13 @@ class PMS implements asset {
 
   assetManager: AssetManager
 
-  currency: Currency
+  localCurrency: Currency
 
   invested: number
 
   currentValue: number
+
+  localValue: number
 
   profit: number
 
@@ -30,9 +32,10 @@ class PMS implements asset {
       currentValue?: number) {
       this.name = name;
       this.assetManager = assetManager;
-      this.currency = currency;
+      this.localCurrency = currency;
       this.invested = invested;
       this.currentValue = currentValue || invested;
+      this.localValue = this.currentValue;
 
       this.profit = this.currentValue - this.invested;
       this.profitPercentage = this.profit / this.invested;
@@ -40,8 +43,8 @@ class PMS implements asset {
 }
 
 export const pmsHoldings: PMS[] = [
-    new PMS('Banyan Tree - Invested', Currency.INR, AssetManager.BanyanTree, 2802090, 2805508),
-    new PMS('Banyan Tree - Non Invested', Currency.INR, AssetManager.BanyanTree, 197909, 197909),
+    new PMS('Banyan Tree - Invested', Currency.INR, AssetManager.BanyanTree, 2703946, 2651563),
+    new PMS('Banyan Tree - Non Invested', Currency.INR, AssetManager.BanyanTree, 296053, 296053),
 ];
 
 mock.default.onGet('/api/1/assets/pms').reply(() => [200, getResponse(pmsHoldings)]);

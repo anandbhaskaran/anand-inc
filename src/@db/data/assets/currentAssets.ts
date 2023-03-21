@@ -14,11 +14,13 @@ class CurrentAsset implements asset {
 
   type: AssetType = AssetType.CurrentAsset
 
-  currency: Currency
+  localCurrency: Currency
 
   invested: number
 
   currentValue: number
+
+  localValue: number
 
   assetManager: AssetManager
 
@@ -33,10 +35,12 @@ class CurrentAsset implements asset {
       currentValue?: number) {
       this.name = name;
       this.assetManager = bank;
-      this.currency = currency;
-      this.invested = CurrencyConvertor.getInstance().getInBaseCurrency(invested, this.currency);
+      this.localCurrency = currency;
+      this.invested = CurrencyConvertor.getInstance()
+          .getInBaseCurrency(invested, this.localCurrency);
+      this.localValue = currentValue || invested;
       this.currentValue = currentValue
-          ? CurrencyConvertor.getInstance().getInBaseCurrency(currentValue, this.currency)
+          ? CurrencyConvertor.getInstance().getInBaseCurrency(currentValue, this.localCurrency)
           : this.invested;
 
       this.profit = this.currentValue - this.invested;
@@ -47,17 +51,20 @@ class CurrentAsset implements asset {
 export async function getCurrentAssetHoldings() {
     await CurrencyConvertor.getInstance().populateCurrencies();
     return [
-        new CurrentAsset('Open Balance', AssetManager.Tradecred, Currency.INR, 80125),
-        new CurrentAsset('Open Balance', AssetManager.HDFCBankAishu, Currency.INR, 452997),
-        new CurrentAsset('Open Balance', AssetManager.IndianBank, Currency.INR, 303369),
-        new CurrentAsset('Open Balance', AssetManager.YesBankNRE, Currency.INR, 4873),
-        new CurrentAsset('Open Balance', AssetManager.YesBankNRO, Currency.INR, 8790),
+        new CurrentAsset('Open Balance', AssetManager.Tradecred, Currency.INR, 173334),
+        new CurrentAsset('Open Balance', AssetManager.HDFCBankAishu, Currency.INR, 48082),
+        new CurrentAsset('Open Balance', AssetManager.IndianBank, Currency.INR, 195778),
+        new CurrentAsset('Open Balance', AssetManager.YesBankNRE, Currency.INR, 192618),
+        new CurrentAsset('Open Balance', AssetManager.YesBankNRO, Currency.INR, 261514),
         new CurrentAsset('Open Balance', AssetManager.Zerodha, Currency.INR, 1),
-        new CurrentAsset('Open Balance', AssetManager.ZerodhaAishu, Currency.INR, 120261),
-        new CurrentAsset('Open Balance', AssetManager.PostFinance, Currency.CHF, 31821),
-        new CurrentAsset('Open Balance', AssetManager.WiseEUR, Currency.EUR, 790.73),
-        new CurrentAsset('Open Balance', AssetManager.WiseOther, Currency.INR, 1931),
-        new CurrentAsset('Open Balance', AssetManager.Degiro, Currency.CHF, 1054),
+        new CurrentAsset('Open Balance', AssetManager.ZerodhaAishu, Currency.INR, 1),
+        new CurrentAsset('Open Balance', AssetManager.PostFinance, Currency.CHF, 8363.39),
+        new CurrentAsset('Open Balance', AssetManager.Neon, Currency.CHF, 364.15),
+        new CurrentAsset('Open Balance', AssetManager.WiseEUR, Currency.EUR, 286.42),
+        new CurrentAsset('Open Balance', AssetManager.WiseOther, Currency.INR, 19777.7184336),
+        new CurrentAsset('Open Balance', AssetManager.Degiro, Currency.CHF, 16.29),
+        new CurrentAsset('Open Balance', AssetManager.BanyanTree, Currency.INR, 296053.2),
+        new CurrentAsset('Open Balance', AssetManager.Swissquote, Currency.CHF, 48.82),
     ];
 }
 

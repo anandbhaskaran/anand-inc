@@ -8,10 +8,11 @@ import wise from '@/assets/images/logos/wise.png';
 import postFinance from '@/assets/images/logos/postfinance.png';
 import degiro from '@/assets/images/logos/degiro.png';
 import banyanTree from '@/assets/images/logos/banyan_tree.png';
-import exp from 'constants';
-import webpack from 'webpack'
+import neon from '@/assets/images/logos/neon.png';
+import swissquote from '@/assets/images/logos/swissquote.png';
 
 const yahooFinance = require('yahoo-finance');
+
 
 export enum AssetType {
   CurrentAsset = 'Current Asset',
@@ -35,24 +36,25 @@ export enum Currency{
   USD = 'USD'
 }
 
+export const BASE_CURRENCY = Currency.INR;
+
 // This is a singleton class
 export class CurrencyConvertor {
-    private static _instance: CurrencyConvertor = new CurrencyConvertor();
+    static _instance: CurrencyConvertor = new CurrencyConvertor();
 
-    private lastUpdated : Date| undefined = undefined;
+    lastUpdated : Date| undefined = undefined;
 
-    private constructor() {
-      if(CurrencyConvertor._instance){
-        throw new Error("Error: Instantiation failed: Use CurrencyConvertor.getInstance() instead of new.");
-      }
-      CurrencyConvertor._instance = this;
-      this.populateCurrencies()
+    constructor() {
+        if (CurrencyConvertor._instance) {
+            throw new Error('Error: Instantiation failed: Use CurrencyConvertor.getInstance() instead of new.');
+        }
+        CurrencyConvertor._instance = this;
+        this.populateCurrencies();
     }
 
-  public static getInstance():CurrencyConvertor
-  {
-    return CurrencyConvertor._instance;
-  }
+    static getInstance():CurrencyConvertor {
+        return CurrencyConvertor._instance;
+    }
 
   // eslint-disable-next-line no-undef
   exchangeRates: Record<Currency, Record<Currency, number>> = {
@@ -106,9 +108,9 @@ export class CurrencyConvertor {
   }
 
   async populateCurrencies() {
-      if(this.lastUpdated != undefined){
-        console.log("Already populated currencies on " + this.lastUpdated.toString()  )
-        return;
+      if (this.lastUpdated != undefined) {
+          console.log(`Already populated currencies on ${this.lastUpdated.toString()}`);
+          return;
       }
       const currencyList: Currency[] = [Currency.INR, Currency.CHF, Currency.EUR, Currency.USD];
 
@@ -134,7 +136,6 @@ export class CurrencyConvertor {
   }
 }
 
-export const BASE_CURRENCY = Currency.INR;
 
 export class AssetManager {
   name:string
@@ -159,13 +160,19 @@ export class AssetManager {
 
   static ZerodhaAishu = new AssetManager('Zerodha', AssetManagerType.StockBroker, 'Open Balance - Aishu account', zerodha)
 
+  static ZerodhaAnand = new AssetManager('Zerodha', AssetManagerType.StockBroker, 'Open Balance - Anand account', zerodha)
+
   static WiseEUR = new AssetManager('Transferwise EUR', AssetManagerType.NBFC, 'Transferwise Euro Account', wise)
 
   static WiseOther = new AssetManager('Transferwise Others', AssetManagerType.NBFC, 'Transferwise Others Total', wise)
 
   static PostFinance = new AssetManager('Post Finance', AssetManagerType.Bank, 'My Post finance account', postFinance)
 
+  static Neon = new AssetManager('Neon', AssetManagerType.Bank, 'My Neon account', neon)
+
   static Degiro = new AssetManager('Degiro', AssetManagerType.StockBroker, 'Degiro', degiro)
+
+  static Swissquote = new AssetManager('SwissQuote', AssetManagerType.StockBroker, 'Swissquote for Spacex', swissquote)
 
   static BanyanTree = new AssetManager('Banyan Tree', AssetManagerType.PMS, 'Indian PMS', banyanTree)
 
@@ -181,8 +188,9 @@ export interface asset {
   name: string;
   type: AssetType;
   assetManager: AssetManager;
-  currency: Currency;
+  localCurrency: Currency;
   invested: number;
+  localValue: number;
   currentValue: number;
   profit: number;
   profitPercentage: number;

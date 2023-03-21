@@ -22,7 +22,7 @@ class MFHolding implements asset {
   // TODO: Implement Asset Manager
   assetManager: AssetManager
 
-  currency: Currency
+  localCurrency: Currency
 
   quantity: number
 
@@ -31,6 +31,8 @@ class MFHolding implements asset {
   invested: number
 
   currentValue: number
+
+  localValue: number
 
   profit: number
 
@@ -42,32 +44,29 @@ class MFHolding implements asset {
       this.fund = mfAsset;
       this.name = mfAsset.name;
       this.assetManager = AssetManager.Zerodha;
-      this.currency = mfAsset.currency;
+      this.localCurrency = mfAsset.currency;
       this.quantity = quantity;
       this.averagePrice = averagePrice;
       this.invested = (quantity * averagePrice);
       this.currentValue = (quantity * mfAsset.marketPrice);
+      this.localValue = quantity * mfAsset.marketPrice;
       this.profit = (this.currentValue - this.invested);
       this.profitPercentage = (this.profit / this.invested);
   }
 }
 
 export const mfHoldings: MFHolding[] = [
-    new MFHolding(MFAsset.PARAG_PARIKH_FLEXI_CAP_GROWTH_DIRECT_PLAN, 29160.806, 34.9894),
-    new MFHolding(MFAsset.ADITYA_BIRLA_SUN_LIFE_FIXED_TERM_SERIES_RU_GROWTH_DIRECT_PLAN, 5000, 10),
-    new MFHolding(MFAsset.ADITYA_BIRLA_SUN_LIFE_SMALL_CAP_GROWTH_DIRECT_PLAN, 6249.683, 30.394),
-    new MFHolding(MFAsset.UTI_NIFTY_INDEX_GROWTH_DIRECT_PLAN, 1686.288, 92.8902),
-    new MFHolding(MFAsset.UTI_NIFTY_NEXT_50_INDEX_GROWTH_DIRECT_PLAN, 49341.346, 12.5909),
-    new MFHolding(MFAsset.ICICI_PRUDENTIAL_BHARAT_CONSUMPTION_GROWTH_DIRECT_PLAN, 518.072, 15.48),
-    new MFHolding(MFAsset.HDFC_INDEX_SENSEX_GROWTH_DIRECT_PLAN, 37.854, 528.3193),
-    new MFHolding(MFAsset.HDFC_MID_CAP_OPPORTUNITIES_GROWTH_DIRECT_PLAN, 11812.139, 65.1625),
-    new MFHolding(MFAsset.HDFC_SMALL_CAP_GROWTH_DIRECT_PLAN, 13281.447, 55.4295),
-    new MFHolding(MFAsset.TATA_EQUITY_PE_GROWTH_DIRECT_PLAN, 280.099, 188.0291),
-    new MFHolding(MFAsset.DSP_MIDCAP_GROWTH_DIRECT_PLAN, 9809.809, 67.7702),
-    new MFHolding(MFAsset.DSP_SMALL_CAP_GROWTH_DIRECT_PLAN, 8360.371, 75.3309),
-    new MFHolding(MFAsset.LYXOR_MSCI_WORLD, 95, 4930.77727013779),
-    new MFHolding(MFAsset.UBS_EURO_STOXX_50, 171, 2753.60910585005),
-    new MFHolding(MFAsset.UBS_MSCI_SWI_20_35, 150, 1763.28504486427),
+    new MFHolding(MFAsset.PARAG_PARIKH_FLEXI_CAP_GROWTH_DIRECT_PLAN, 44594.688, 40.3699),
+    new MFHolding(MFAsset.ADITYA_BIRLA_SUN_LIFE_SMALL_CAP_GROWTH_DIRECT_PLAN, 2621.26, 27.1356),
+    new MFHolding(MFAsset.UTI_NIFTY_50_INDEX_GROWTH_DIRECT_PLAN, 1106.308, 109.6216),
+    new MFHolding(MFAsset.UTI_NIFTY_NEXT_50_INDEX_GROWTH_DIRECT_PLAN, 67947.26, 13.6621),
+    new MFHolding(MFAsset.HDFC_MID_CAP_OPPORTUNITIES_GROWTH_DIRECT_PLAN, 14295.157, 73.7273),
+    new MFHolding(MFAsset.HDFC_SMALL_CAP_GROWTH_DIRECT_PLAN, 15105.99, 64.8063),
+    new MFHolding(MFAsset.DSP_MIDCAP_GROWTH_DIRECT_PLAN, 12084.643, 72.1827),
+    new MFHolding(MFAsset.DSP_SMALL_CAP_GROWTH_DIRECT_PLAN, 11405.812, 88.8028),
+    new MFHolding(MFAsset.LYXOR_MSCI_WORLD, 150, 5741.65162493604),
+    new MFHolding(MFAsset.UBS_EURO_STOXX_50, 347, 3045.77405501519),
+    new MFHolding(MFAsset.UBS_MSCI_SWI_20_35, 180, 1959.38478051357),
 
 ];
 

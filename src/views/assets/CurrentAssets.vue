@@ -8,7 +8,7 @@
                 order="1"
             >
                 <statistics-card-vertical
-                    :statistics="formatCurrency(analytics.totalValue)"
+                    :statistics="formatToBaseCurrency(analytics.totalValue)"
                     :change="formatPercentage(analytics.currentProfit/analytics.totalInvested)"
                     :color="totalValue.color"
                     :icon="totalValue.icon"
@@ -23,7 +23,7 @@
                 order="2"
             >
                 <statistics-card-vertical
-                    :statistics="formatCurrency(analytics.currentProfit)"
+                    :statistics="formatToBaseCurrency(analytics.currentProfit)"
                     :color="currentProfit.color"
                     :icon="currentProfit.icon"
                     :stat-title="currentProfit.statTitle"
@@ -69,14 +69,15 @@
                 </div>
             </template>
             <template #[`item.invested`]="{item}">
-                {{ formatCurrency(item.invested) }}
+                {{ formatToBaseCurrency(item.invested) }}
             </template>
             <template #[`item.currentValue`]="{item}">
-                {{ formatCurrency(item.currentValue) }}
+                {{ formatToBaseCurrency(item.currentValue) }}
+                {{ formatCurrency(item.localValue, item.localCurrency) }}
             </template>
             <template #[`item.profit`]="{item}">
                 <span :class="`${getProfitStatus(item.profitPercentage)}--text`">
-                    {{ formatCurrency(item.profit) }}
+                    {{ formatToBaseCurrency(item.profit) }}
                 </span>
             </template>
             <template #[`item.profitPercentage`]="{item}">
@@ -132,7 +133,8 @@ export default {
             change: '+0%',
         };
 
-        const formatCurrency = (number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(number);
+        const formatCurrency = (number, currency) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency }).format(number);
+        const formatToBaseCurrency = (number) => formatCurrency(number, 'INR');
 
         const formatPercentage = (number) => {
             const percentString = Number(number)
@@ -165,6 +167,7 @@ export default {
             investment,
             analytics,
             isReady,
+            formatToBaseCurrency,
             formatCurrency,
             formatPercentage,
             getProfitStatus,
